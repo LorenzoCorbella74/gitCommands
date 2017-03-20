@@ -13,7 +13,7 @@
     <h1>Comandi di GIT</h1>
 
     <h2>Help</h2>
-    <p> Apre il browser con il readme di aiuto del comando specificato</p>
+    <p> Apre il browser con il readme di aiuto del comando specificato:</p>
     <code> & git nomecomando --help</code>
 
     <h2>Creare Repository</h2>
@@ -71,7 +71,6 @@
 
     </pre>
 
-
     <h2>Branch</h2>
     <h3>Ogni qual volta si inizia una nuova feature, bugfix, o esperimento si deve creare un nuovo branch!.</h3>
     <p>Mostrare tutti i branch correnti:</p>
@@ -86,6 +85,8 @@
     <code>& git checkout --track path/remote/branch  </code>
     <p>Cancellare un branch locale:</p>
     <code>& git branch -d nomebranch  </code>
+    <p>Cancellare un branch remoto:</p>
+    <code>& git branch -dr remote/branch </code>
     <p>Il branch non sarà disponibile agli altri fino a quando non verrà inviato al repository remoto</p>
     <code>$ git push origin <branch></code>
 
@@ -102,6 +103,56 @@
         <code>git stash drop  // rimuove l'ultimo stash</code>
         <code>git stash clear // pulisce la lista di stash</code>
     </pre>
+
+    <h2>Update and Publish</h2>
+    <h3>Repository remoti</h3>
+    <pre>
+        <code>$ git remote -v // dà la lista dedi repository remoti</code>
+        <code>$ git remote show https://gitlab.cloud.net/ApplicationSkeleton  // mostra informazioni del remote</code>
+        <code>$ git remote add nomebranch https://gitlab.cloud.net/nomebranch // aggiungi un repository remoto</code>
+        <code>$ git fetch nomeremote // scarica tutte le modifiche da nomeremote ma non integrarle nell'HEAD</code>
+        <code>$ git pull nomeremote // scarica tutte le modifiche da nomeremote e le integra mergiandole nell'HEAD</code>
+        <code>$ git push nomeremote nomebranch  // pubblica le modifiche locali sul remoto</code>
+    </pre>
+
+    <h2>Merge & Rebase</h2>
+    <h3>In GIT ci sono due modi per integrare i cambiamenti da un ramo all'altro: MERGE e REBASE</h3>
+    <h4>Merge</h4>
+    <p>Il comando <strong>merge</strong> crea un nuovo commit che include le modifiche provenienti da altri commit. Si dice
+        che si mergia il ramo di origine nel ramo di destinazione.</p>
+    <pre>
+         <code>$ git chechout featurebranch // si va nel ramo che riceverà (ramo di destinazione)</code>
+         <code>$ git rebase master // si specifica da chi prendere i commit (ramo di origine)</code>
+     </pre>
+
+    <h4>Rebase (Rifondazione)</h4>
+    <p>Il comando <strong>rebase</strong> sposta il ramo featurebranch all'estremità del master e tutti i commit di questo vengono
+        inclusi nel ramo di destinazione. Si ha così una rifondazione della cronologia del progetto. Se il merge crea un
+        singolo commit con due genitori preservando l'history non lineare, un rebase riporta i commit dal branch corrente
+        su un altro producendo una history lineare. E' un modo automatizzato di eseguire in sequenza diversi cherry-pick.</p>
+    <pre>
+         <code>$ git chechout featurebranch // si va nel ramo che riceverà (ramo di destinazione)</code>
+         <code>$ git merge master // si specifica da chi prendere le modifiche (ramo di origine delle modifiche)</code>
+     </pre>
+
+    <h4>Conflicts</h4>
+    <p>Per risolvere i conflitti si utilizzano vari tool. Per incorporare un altro branch nel tuo branch attivo, utilizza git
+        merge nomebranch, e git prova ad auto-incorporare le modifiche. Sfortunatamente, a volte questa procedura automatizzata
+        non è possibile, ed in questo caso ci saranno dei conflitti. Sei tu il responsabile che sistemerà questi conflitti
+        manualmente modificando i file che git mostrerà. Dopo aver cambiato questi files, dovrai marcarli come 'correttamente
+        incorporati' tramite 'git add nomedelfileeditato' e prima di immettere le modifiche.</p>
+    <pre>
+     <code>$ git mergetool // usa il tool configurato per risolvere i conflitti</code>
+     <code>$ git diff branch_sorgente branch_target</code>
+     <code>$ git add resolved-file // marcare i file come risolti</code>
+     </pre>
+
+    <h4>Cherry Pick</h4>
+    <p>Per copiare un commit da un branch ad un altro si utilizza il comando <strong>cherry-pick</strong>. Il comando copia
+        un commit creandone uno nuovo nel branch corrente con lo stesso msg dell'originale applicando le modifiche come se
+        fosse un commit diverso. </p>
+    <code>$ git cherry-pick 2c33a.</code>
+
 
     <h2>Links:</h2>
     <a href="http://marklodato.github.io/visual-git-guide/index-en.html">Visual Guide</a>
