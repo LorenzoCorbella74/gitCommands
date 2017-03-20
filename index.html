@@ -11,10 +11,14 @@
 <body>
 
     <h1>Comandi di GIT</h1>
-    <h2>CREATE</h2>
-    <h3>Creare un repository locale</h3>
+
+    <h2>Help</h2>
+    <p> Apre il browser con il readme di aiuto del comando specificato</p>
+    <code> git nomecomando --help</code>
+
+    <p>Creare un repository locale:</p>
     <code> & git init </code>
-    <h3>Clonare un repository remoto</h3>
+    <p>Clonare un repository remoto esistente:</p>
     <code> & git clone path/di/origin </code>
 
     <h2>Modifiche locali</h2>
@@ -22,17 +26,45 @@
     <code>& git status</code>
     <p>Aggiungere il file indicato, modificato rispetto all'ultimo commit, nello STAGE:</p>
     <code>& git add index.html</code>
-    <p>Aggiungere tutti i file modificati nello STAGE:</p>
+    <p>Aggiungere tutti i file modificati nello STAGE (l'eventuale flag -p richiede di confermare ogni singola modifica):</p>
     <code>& git add .</code>
-    <p>Aggiungere tutti i file, o un singolo nello STAGE confermando ogni singola modifica:</p>
-    <code>& git add -p  </code>
     <p>Rimuovere il file, precedentemente aggiunto, dallo STAGE, ma mantenendo le modifiche:</p>
     <code>& git reset -- index.html</code>
     <p>Committare i file, salvare uno snapshot dello stage:</p>
     <code>& git commit -m "Messaggio del commit"  </code>
-    <p>Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage con l'ultimo commit (creando un altro commit distinto):</p>
+    <p>Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un commit distinto):</p>
     <code>& git commit --amend  </code>
+    <p>Marcare il commit corrente con un tag:</p>
+    <code>& git tag v1.0  </code>
 
+
+    <h2>Commit history</h2>
+    <p>Mostra l'hash, l'autore e la data di tutti i commit partendo dal primo:</p>
+    <code>& git log  </code>
+    <p>Mostra le modifiche nel tempo di un unico file:</p>
+    <code>& git log -p index.html </code>
+    <p>Mostra chi ha cambiato, cosa e quando di un unico file:</p>
+    <code>& git blame index.html </code>
+    <p>Il flag --stat mostra l'hash, l'autore, la data e una sintesi dei file modificati, --oneline produce righe con hash e il msg del commit, mentre --decorate indica anche il branch e i tag, --graph disegna un grafico indicante il commit history. Si può formattare il log con --pretty=format:"%cn committed %h on %cd" o filtrare la commit history per data git log --after="2014-7-1" --before="2014-7-4" o per autore git log --author="John". Invece git shortlog riporta una lista dei commit suddivisi per autore.</p>
+
+    <h2>Differenze</h2>
+    <p>Mostra le differenze tra lo Stage e la working directory:</p>
+    <code>& git diff  </code>
+    <p>Mostra le differenze tra due commit:</p>
+    <code>& git diff 65476fa 4b8e1ad </code>
+
+    <h2>Branch</h2>
+    <h3>Ogni qual volta si inizia una nuova feature, bugfix, o esperimento si deve creare un nuovo branch!.</h3>
+    <p>Mostrare tutti i branch correnti:</p>
+    <code>& git branch -av  </code>
+    <p>Per switchare ad un branch specifico:</p>
+    <code>& git checkout nomebranch  </code>
+    <p>Creare un nuovo branch basato sull'ultimo commit (HEAD):</p>
+    <code>& git branch nomebranch  </code>
+    <p>Creare un nuovo branch basato su un brach remoto:</p>
+    <code>& git checkout --track path/remote/branch  </code>
+    <p>Cancellare un branch locale:</p>
+    <code>& git branch -d nomebranch  </code>
 
     <h2>Links:</h2>
     <a href="http://marklodato.github.io/visual-git-guide/index-en.html">Visual Guide</a>
