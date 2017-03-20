@@ -42,9 +42,7 @@
     <pre>
     <code>& git tag v1.0  </code>
     <code>& git -a 4b8e1ad // si specifica il commit da taggare  </code>
-
     </pre>
-
 
     <h2>Commit history</h2>
     <p>Mostra l'hash, l'autore e la data di tutti i commit partendo dal primo:</p>
@@ -91,8 +89,11 @@
     <p>Il branch non sarà disponibile agli altri fino a quando non verrà inviato al repository remoto</p>
     <code>$ git push origin <branch></code>
 
-     <h2>Stash</h2>
-    <h3>Siamo nel mezzo dello sviluppo di qualche funzionalità , ma emerge la necessità di interrompere tutto per dedicarsi al bugfix sul commit precedente: non si può perdere il lavoro non committato e si accantona il codice non committatato (lo stato della working directory e dell'index) e si ritorna allo stato dell'ultimo commit con uno stato pulito della working directory:</h3>
+    <h2>Stash</h2>
+    <h3>Siamo nel mezzo dello sviluppo di qualche funzionalità , ma emerge la necessità di interrompere tutto per dedicarsi al
+        bugfix sul commit precedente: non si può perdere il lavoro non committato e si accantona il codice non committatato
+        (lo stato della working directory e dell'index) e si ritorna allo stato dell'ultimo commit con uno stato pulito della
+        working directory:</h3>
     <pre>
         <code>git stash</code>
         <code>git stash list // elenca una coda di stash</code>
