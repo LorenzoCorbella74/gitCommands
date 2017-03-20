@@ -14,7 +14,7 @@
 
     <h2>Help</h2>
     <p> Apre il browser con il readme di aiuto del comando specificato</p>
-    <code> git nomecomando --help</code>
+    <code> & git nomecomando --help</code>
 
     <h2>Creare Repository</h2>
     <p>Creare un repository locale:</p>
@@ -64,6 +64,15 @@
     <code>& git diff  </code>
     <p>Mostra le differenze tra due commit:</p>
     <code>& git diff 65476fa 4b8e1ad </code>
+    <p>Mostrare le differenze tra due branch:</p>
+    <code>git diff branch_sorgente branch_target</code>
+    <p>Mostrare le differenze tra un tag e la working directory (il flag --stat indica un resoconto dei cambiamenti)</p>
+    <pre>
+    <code>git diff v1.0</code>
+    <code>git diff --stat nomebranch1 nomebranch2 // resoconto tra due branch</code>
+
+    </pre>
+
 
     <h2>Branch</h2>
     <h3>Ogni qual volta si inizia una nuova feature, bugfix, o esperimento si deve creare un nuovo branch!.</h3>
@@ -72,11 +81,26 @@
     <p>Per switchare ad un branch specifico:</p>
     <code>& git checkout nomebranch  </code>
     <p>Creare un nuovo branch basato sull'ultimo commit (HEAD):</p>
-    <code>& git branch nomebranch  </code>
+    <code>& git branch nomebranch </code>
+    <p>Crea un nuovo branch chiamato "feature_x" e passa al nuovo branch usando:</p>
+    <code>& git checkout -b feature_x</code>
     <p>Creare un nuovo branch basato su un brach remoto:</p>
     <code>& git checkout --track path/remote/branch  </code>
     <p>Cancellare un branch locale:</p>
     <code>& git branch -d nomebranch  </code>
+    <p>Il branch non sarà disponibile agli altri fino a quando non verrà inviato al repository remoto</p>
+    <code>$ git push origin <branch></code>
+
+     <h2>Stash</h2>
+    <h3>Siamo nel mezzo dello sviluppo di qualche funzionalità , ma emerge la necessità di interrompere tutto per dedicarsi al bugfix sul commit precedente: non si può perdere il lavoro non committato e si accantona il codice non committatato (lo stato della working directory e dell'index) e si ritorna allo stato dell'ultimo commit con uno stato pulito della working directory:</h3>
+    <pre>
+        <code>git stash</code>
+        <code>git stash list // elenca una coda di stash</code>
+        <code>git stash apply // quando si è pronti a ritornare da dove si era lasciato il comando riporta indietro ai cambiamenti fatti nella workind directory</code>
+        <code>git stash pop   // stessa cosa di apply ma rimuove lo stato dallo stash list</code>
+        <code>git stash drop  // rimuove l'ultimo stash</code>
+        <code>git stash clear // pulisce la lista di stash</code>
+    </pre>
 
     <h2>Links:</h2>
     <a href="http://marklodato.github.io/visual-git-guide/index-en.html">Visual Guide</a>
