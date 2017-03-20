@@ -92,18 +92,19 @@
     <p>Il branch non sarà disponibile agli altri fino a quando non verrà inviato al repository remoto</p>
     <code>$ git push origin <branch></code>
 
-    <h2>Stash</h2>
+    <h2>STASH</h2>
     <h3>Siamo nel mezzo dello sviluppo di qualche funzionalità , ma emerge la necessità di interrompere tutto per dedicarsi al
         bugfix sul commit precedente: non si può perdere il lavoro non committato e si accantona il codice non committatato
         (lo stato della working directory e dell'index) e si ritorna allo stato dell'ultimo commit con uno stato pulito della
         working directory:</h3>
     <pre>
-        <code>git stash -a "nomeStash"</code>
+        <code>git stash -a "nomeStash" // -a permette di dare un nome all'accantonamento</code>
         <code>git stash list // elenca una coda di stash</code>
         <code>git stash apply // quando si è pronti a ritornare da dove si era lasciato il comando riporta indietro ai cambiamenti fatti nella workind directory</code>
         <code>git stash pop   // stessa cosa di apply ma rimuove lo stato dallo stash list</code>
         <code>git stash drop  // rimuove l'ultimo stash</code>
         <code>git stash clear // pulisce la lista di stash</code>
+        <code>git stash branch testchanges // crea un branch da uno stash</code>
     </pre>
 
     <h2>Update and Publish</h2>
