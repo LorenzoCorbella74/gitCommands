@@ -36,6 +36,8 @@
     <p>Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history
         un commit distinto):</p>
     <code>& git commit --amend  </code>
+    <p>Vedere i dettagli di un commit:</p>
+    <code>& git show 65476fa </code>
     <p>I <strong>tag</strong> sono utili per avere dei bookmark dei commit effettuati. Per marcare il commit corrente con un
         tag e poterlo in seguito confrontare con altri commit (mentre il flag -a permette di avere un tag annotato, cioè
         un msg):</p>
@@ -96,7 +98,7 @@
         (lo stato della working directory e dell'index) e si ritorna allo stato dell'ultimo commit con uno stato pulito della
         working directory:</h3>
     <pre>
-        <code>git stash</code>
+        <code>git stash -a "nomeStash"</code>
         <code>git stash list // elenca una coda di stash</code>
         <code>git stash apply // quando si è pronti a ritornare da dove si era lasciato il comando riporta indietro ai cambiamenti fatti nella workind directory</code>
         <code>git stash pop   // stessa cosa di apply ma rimuove lo stato dallo stash list</code>
@@ -151,7 +153,42 @@
     <p>Per copiare un commit da un branch ad un altro si utilizza il comando <strong>cherry-pick</strong>. Il comando copia
         un commit creandone uno nuovo nel branch corrente con lo stesso msg dell'originale applicando le modifiche come se
         fosse un commit diverso. </p>
-    <code>$ git cherry-pick 2c33a.</code>
+    <code>$ git cherry-pick 65476fa</code>
+
+
+
+    <h2>UNDO</h2>
+    <p>Per vedere temporanemaente un commit:</p>
+    <code>$ git checkout 65476fa </code>
+
+    <p>Elimina le modifiche locali nella working directory, ritornando all'ultimo committed state:</p>
+    <code>$ git reset --hard HEAD // HEAD si può omettere sta per branch corrente</code>
+
+    <p>Elimina le modifiche locali in uno specifico file ritornando alla versione nell'ultimo committed state</p>
+    <code>$ git checkout HEAD  index.html // oppure git checkout -- index.html </code>
+
+    <p>Fà un revert del commit (producendo un nuovo commit con modifiche opposte, si cancella quindi commit pubblicati con nuovi commit)</p>
+    <pre>
+        <code>$ git revert 65476fa</code>
+        <code>$ git revert HEAD 2..HEAD // fa il revert degli ultimi due commit</code>
+    </pre>
+
+    <p>Ritornare indietro al commit indicato, modificando l'history dei commit.</p>
+    <pre>
+        <code>$ git reset --hard 65476fa // ...elimina le modifiche locali nella working directory</code>
+        <code>$ git reset  65476fa // ...preserva le modifiche dei commit successivi a quello indicato e messi come unstaged</code>
+        <code>$ git reset --keep 65476fa // ...e preserva modifiche locali non committate.</code>
+        <br>
+        <code>// If I want to keep the last changes...</code>
+        <code>$ git stash -a "feature"</code>
+        <code>$ git reset --hard 65476fa</code>
+        <code>$ git stash apply "feature"</code>
+    </pre>
+
+
+    <h3>Utilities</h3>
+    <p>Cerca nella working directory il testo 'pippo'</p>
+    <code>$ git grep "pippo"</code>
 
     <h2>Links:</h2>
     <a href="http://marklodato.github.io/visual-git-guide/index-en.html">Visual Guide</a>
