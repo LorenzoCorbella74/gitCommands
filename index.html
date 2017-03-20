@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>GIT: Principali comandi</title>
+    <title>GIT: Principali comandi & Workflow</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="style.css" rel="stylesheet">
@@ -10,7 +10,7 @@
 
 <body>
 
-    <h1>Comandi di GIT</h1>
+    <h1>GIT: Principali comandi & Workflow</h1>
 
     <h2>Help</h2>
     <p> Apre il browser con il readme di aiuto del comando specificato:</p>
@@ -20,7 +20,23 @@
     <p>Creare un repository locale:</p>
     <code> & git init </code>
     <p>Clonare un repository remoto esistente:</p>
-    <code> & git clone path/di/origin </code>
+    <code> & git clone https://github.com/LorenzoCorbella74/gitCommands.git </code>
+
+    <p>Clonare branch specifici su github</p>
+    <pre>
+    <code> // per avere solo un branch specifico </code>
+    <code> & git branch -a // mostra tutti i branch presenti su remote </code>
+    <code> & git checkout -b nomebranch origin/nomebranch // scarica il branch nomebranch </code>
+    <br>
+    <code> // per avere tutti i branch di un repository</code>
+    <code> mkdir mydir && cd mydir</code>
+    <code> git clone --mirror https://github.com/LorenzoCorbella74/gitCommands.git .git </code>
+    <code> git config --bool  core.bare false </code>
+    <code> git reset --hard  </code>
+    <br>
+    <code> // per usare un branch come template</code>
+    <code> git clone -b brachchevogliocopiare https://github.com/LorenzoCorbella74/gitCommands.git/code></code>
+    </pre>
 
     <h2>Modifiche locali</h2>
     <p>Verificare cosa è successo dall'ultimo commit:</p>
@@ -38,9 +54,8 @@
     <code>& git commit --amend  </code>
     <p>Vedere i dettagli di un commit:</p>
     <code>& git show 65476fa </code>
-    <p>I <strong>tag</strong> sono utili per avere dei bookmark dei commit effettuati. Per marcare il commit corrente con un
-        tag e poterlo in seguito confrontare con altri commit (mentre il flag -a permette di avere un tag annotato, cioè
-        un msg):</p>
+    <p>I 'tag' sono utili per avere dei bookmark dei commit effettuati. Per marcare il commit corrente con un tag e poterlo
+        in seguito confrontare con altri commit (mentre il flag -a permette di avere un tag annotato, cioè un msg):</p>
     <pre>
     <code>& git tag v1.0  </code>
     <code>& git -a 4b8e1ad // si specifica il commit da taggare  </code>
@@ -90,7 +105,7 @@
     <p>Cancellare un branch remoto:</p>
     <code>& git branch -dr remote/branch </code>
     <p>Il branch non sarà disponibile agli altri fino a quando non verrà inviato al repository remoto</p>
-    <code>$ git push origin <branch></code>
+    <code>$ git push -u remote(origin) local-branch // -u sta per 'upstream'</code>
 
     <h2>STASH</h2>
     <h3>Siamo nel mezzo dello sviluppo di qualche funzionalità , ma emerge la necessità di interrompere tutto per dedicarsi al
@@ -125,7 +140,7 @@
         che si mergia il ramo di origine nel ramo di destinazione.</p>
     <pre>
          <code>$ git chechout featurebranch // si va nel ramo che riceverà (ramo di destinazione)</code>
-         <code>$ git rebase master // si specifica da chi prendere i commit (ramo di origine)</code>
+         <code>$ git merge branch-to-integrate // si specifica da chi prendere i commit (ramo di origine)</code>
      </pre>
 
     <h4>Rebase (Rifondazione)</h4>
@@ -135,7 +150,7 @@
         su un altro producendo una history lineare. E' un modo automatizzato di eseguire in sequenza diversi cherry-pick.</p>
     <pre>
          <code>$ git chechout featurebranch // si va nel ramo che riceverà (ramo di destinazione)</code>
-         <code>$ git merge master // si specifica da chi prendere le modifiche (ramo di origine delle modifiche)</code>
+         <code>$ git rebase branch-to-integrate // si specifica da chi prendere le modifiche (ramo di origine delle modifiche)</code>
      </pre>
 
     <h4>Conflicts</h4>
@@ -168,10 +183,14 @@
     <p>Elimina le modifiche locali nella working directory, ritornando all'ultimo committed state:</p>
     <code>$ git reset --hard HEAD // HEAD si può omettere sta per branch corrente</code>
 
-    <p>Nel caso tu abbia fatto qualcosa di sbagliato si può sostituire i cambiamenti fatti in locale con il comando 'git checkout -- nomedelfile' questo rimpiazza le modifiche nell'albero di lavoro con l'ultimo contenuto presente in HEAD. I cambiamenti fatti ed aggiunti all'index, così come i nuovi files, verranno mantenuti.</p>
+    <p>Nel caso tu abbia fatto qualcosa di sbagliato si può sostituire i cambiamenti fatti in locale con il comando 'git checkout
+        -- nomedelfile' questo rimpiazza le modifiche nell'albero di lavoro con l'ultimo contenuto presente in HEAD. I cambiamenti
+        fatti ed aggiunti all'index, così come i nuovi files, verranno mantenuti.</p>
     <code>$ git checkout HEAD  index.html // oppure git checkout -- index.html </code>
 
-    <p>E' possibile inoltre fare un revert del commit (producendo un nuovo commit con modifiche opposte, si cancella quindi commit pubblicati con nuovi commit che prevengono la perdita della commit history. E' utile quando un commit ha introdotto dei bug che possono essere rimossi facendo il revert del commit.</p>
+    <p>E' possibile inoltre fare un revert del commit (producendo un nuovo commit con modifiche opposte, si cancella quindi
+        commit pubblicati con nuovi commit che prevengono la perdita della commit history. E' utile quando un commit ha introdotto
+        dei bug che possono essere rimossi facendo il revert del commit.</p>
     <pre>
         <code>$ git revert 65476fa</code>
         <code>$ git revert HEAD~2..HEAD // fa il revert degli ultimi due commit</code>
@@ -200,8 +219,7 @@
         <li class="list-unstyled"><a href="http://marklodato.github.io/visual-git-guide/index-en.html">GIT Visual Guide</a></li>
         <li class="list-unstyled"> <a href="https://code.visualstudio.com/docs/editor/versioncontrol">Visual Studio code integration</a></li>
     </ul>
-    
-   
+
 </body>
 
 </html>
