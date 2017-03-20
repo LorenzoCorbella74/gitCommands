@@ -158,19 +158,23 @@
 
 
     <h2>UNDO</h2>
-    <p>Per vedere temporanemaente un commit:</p>
-    <code>$ git checkout 65476fa </code>
+    <p>Per vedere temporaneamente un commit:</p>
+    <pre>
+        <code>$ git checkout 65476fa </code>
+        <code>$ git checkout 65476fa index.html // per vedere temporanemante solo un file</code>
+        <code>$ git checkout master  // per tornare allo stato “current” del progetto</code>
+    </pre>
 
     <p>Elimina le modifiche locali nella working directory, ritornando all'ultimo committed state:</p>
     <code>$ git reset --hard HEAD // HEAD si può omettere sta per branch corrente</code>
 
-    <p>Elimina le modifiche locali in uno specifico file ritornando alla versione nell'ultimo committed state</p>
+    <p>Nel caso tu abbia fatto qualcosa di sbagliato si può sostituire i cambiamenti fatti in locale con il comando 'git checkout -- nomedelfile' questo rimpiazza le modifiche nell'albero di lavoro con l'ultimo contenuto presente in HEAD. I cambiamenti fatti ed aggiunti all'index, così come i nuovi files, verranno mantenuti.</p>
     <code>$ git checkout HEAD  index.html // oppure git checkout -- index.html </code>
 
-    <p>Fà un revert del commit (producendo un nuovo commit con modifiche opposte, si cancella quindi commit pubblicati con nuovi commit)</p>
+    <p>E' possibile inoltre fare un revert del commit (producendo un nuovo commit con modifiche opposte, si cancella quindi commit pubblicati con nuovi commit che prevengono la perdita della commit history. E' utile quando un commit ha introdotto dei bug che possono essere rimossi facendo il revert del commit.</p>
     <pre>
         <code>$ git revert 65476fa</code>
-        <code>$ git revert HEAD 2..HEAD // fa il revert degli ultimi due commit</code>
+        <code>$ git revert HEAD~2..HEAD // fa il revert degli ultimi due commit</code>
     </pre>
 
     <p>Ritornare indietro al commit indicato, modificando l'history dei commit.</p>
