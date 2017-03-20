@@ -16,6 +16,7 @@
     <p> Apre il browser con il readme di aiuto del comando specificato</p>
     <code> git nomecomando --help</code>
 
+    <h2>Creare Repository</h2>
     <p>Creare un repository locale:</p>
     <code> & git init </code>
     <p>Clonare un repository remoto esistente:</p>
@@ -32,10 +33,17 @@
     <code>& git reset -- index.html</code>
     <p>Committare i file, salvare uno snapshot dello stage:</p>
     <code>& git commit -m "Messaggio del commit"  </code>
-    <p>Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un commit distinto):</p>
+    <p>Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history
+        un commit distinto):</p>
     <code>& git commit --amend  </code>
-    <p>Marcare il commit corrente con un tag:</p>
+    <p>I <strong>tag</strong> sono utili per avere dei bookmark dei commit effettuati. Per marcare il commit corrente con un
+        tag e poterlo in seguito confrontare con altri commit (mentre il flag -a permette di avere un tag annotato, cioè
+        un msg):</p>
+    <pre>
     <code>& git tag v1.0  </code>
+    <code>& git -a 4b8e1ad // si specifica il commit da taggare  </code>
+
+    </pre>
 
 
     <h2>Commit history</h2>
@@ -45,7 +53,11 @@
     <code>& git log -p index.html </code>
     <p>Mostra chi ha cambiato, cosa e quando di un unico file:</p>
     <code>& git blame index.html </code>
-    <p>Il flag --stat mostra l'hash, l'autore, la data e una sintesi dei file modificati, --oneline produce righe con hash e il msg del commit, mentre --decorate indica anche il branch e i tag, --graph disegna un grafico indicante il commit history. Si può formattare il log con --pretty=format:"%cn committed %h on %cd" o filtrare la commit history per data git log --after="2014-7-1" --before="2014-7-4" o per autore git log --author="John". Invece git shortlog riporta una lista dei commit suddivisi per autore.</p>
+    <p>Il flag --stat mostra l'hash, l'autore, la data e una sintesi dei file modificati, --oneline produce righe con hash e
+        il msg del commit, mentre --decorate indica anche il branch e i tag, --graph disegna un grafico indicante il commit
+        history. Si può formattare il log con --pretty=format:"%cn committed %h on %cd" o filtrare la commit history per
+        data git log --after="2014-7-1" --before="2014-7-4" o per autore git log --author="John". Invece git shortlog riporta
+        una lista dei commit suddivisi per autore.</p>
 
     <h2>Differenze</h2>
     <p>Mostra le differenze tra lo Stage e la working directory:</p>
