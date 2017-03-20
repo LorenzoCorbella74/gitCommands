@@ -40,3 +40,7 @@ a {
 a:hover{
   color:darkblue;
 }
+
+li.list-unstyled{
+  list-style-type: none;
+}
