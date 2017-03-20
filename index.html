@@ -10,10 +10,28 @@
 
 <body>
 
-    <h1>Comandi di <strong>GIT</strong></h1>
+    <h1>Comandi di GIT</h1>
     <h2>CREATE</h2>
     <h3>Creare un repository locale</h3>
     <code> & git init </code>
+    <h3>Clonare un repository remoto</h3>
+    <code> & git clone path/di/origin </code>
+
+    <h2>Modifiche locali</h2>
+    <p>Verificare cosa è successo dall'ultimo commit:</p>
+    <code>& git status</code>
+    <p>Aggiungere il file indicato, modificato rispetto all'ultimo commit, nello STAGE:</p>
+    <code>& git add index.html</code>
+    <p>Aggiungere tutti i file modificati nello STAGE:</p>
+    <code>& git add .</code>
+    <p>Aggiungere tutti i file, o un singolo nello STAGE confermando ogni singola modifica:</p>
+    <code>& git add -p  </code>
+    <p>Rimuovere il file, precedentemente aggiunto, dallo STAGE, ma mantenendo le modifiche:</p>
+    <code>& git reset -- index.html</code>
+    <p>Committare i file, salvare uno snapshot dello stage:</p>
+    <code>& git commit -m "Messaggio del commit"  </code>
+    <p>Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage con l'ultimo commit (creando un altro commit distinto):</p>
+    <code>& git commit --amend  </code>
 
 
     <h2>Links:</h2>
