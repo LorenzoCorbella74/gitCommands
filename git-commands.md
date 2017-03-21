@@ -23,11 +23,11 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
     & git checkout -b nomebranch origin/nomebranch // scarica il branch nomebranch 
     // per avere tutti i branch di un repository
     $ mkdir mydir && cd mydir
-    $ git clone --mirror https://github.com/LorenzoCorbella74/gitCommands.git .git 
+    $ git clone --mirror https://github.com/Lorenzo74/gitCommands.git .git 
     $ git config --bool  core.bare false 
     $ git reset --hard  
     // per usare un branch come template
-    $ git clone -b brachchevogliocopiare https://github.com/LorenzoCorbella74/gitCommands.git
+    $ git clone -b brachchevogliocopiare https://github.com/Lorenzo74/gitCommands.git
 ```
 
 ## Modifiche locali && Workflow
@@ -35,7 +35,7 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - Aggiungere il file indicato, modificato rispetto all'ultimo commit, nello STAGE: `& git add index.html`
 - Aggiungere tutti i file modificati nello STAGE (l'eventuale flag -p richiede di confermare ogni singola modifica): `& git add .`
 - Rimuovere il file, precedentemente aggiunto, dallo STAGE, ma mantenendo le modifiche: `& git reset -- index.html`
-- Committare i file indica salvare uno snapshot dello stage. Git committerà soltanto cambiamenti nello stage(index) e non cambiamenti nella working directory. Git ragione per cambiamenti pertanto ogni commit ha un riferimento al proprio padre: `& git commit -m "Messaggio del commit"  `
+- Committare i file indica salvare uno snapshot dello stage. Git committerà soltanto cambiamenti nello stage(index) e non i cambiamenti nella working directory. Git ragione per cambiamenti pertanto ogni commit ha un riferimento al proprio padre: `  & git commit -m "Messaggio del commit"`
 
 - Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un commit distinto): `  & git commit --amend -m "New commit message `
 - Per vedere i dettagli di un commit:  `  & git show 65476fa `
@@ -62,7 +62,7 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - Mostra le differenze tra due commit(il + recente prima, il + vecchio dopo): `& git diff 65476fa..4b8e1ad `
 - Mostrare le differenze tra due branch: `git diff branch_sorgente branch_target`
 - Mostrare le differenze tra un tag e la working directory (il flag --stat indica un resoconto dei cambiamenti): `git diff v1.0`
-- mostrare resoconto tra due branch:  `git diff --stat nomebranch1 nomebranch2`
+- Mostrare un resoconto tra due branch:  `git diff --stat nomebranch1 nomebranch2`
 
 ## Branch
 Ogni qual volta si inizia una nuova feature, bugfix, o esperimento si deve creare un nuovo branch che sono dei semplici puntatori a commit (nei trasizionali VCS invece sono di solito delle copie dei working files).
@@ -91,13 +91,13 @@ Il comando 'pull' è di fatto uno shortcut per 'fetch' seguito da 'merge' e può
 
 ```
 
-Quando si lavora con un repository condiviso è possibile vedersi rigettare un push in quanto altri hanno modifiche più recenti ai file nella local historyext install githistory. E' possibile risolvere con: ` git pull --rebase` e poi `git push origin/master`.
+Quando si lavora con un repository condiviso è possibile vedersi rigettare un push in quanto altri hanno modifiche più recenti ai file nella local history. E' possibile risolvere con: ` git pull --rebase` e poi `git push origin/master`.
 
 ## Merge & Rebase
 In GIT ci sono due modi per integrare i cambiamenti da un ramo all'altro: `MERGE` e `REBASE`.
 
 ### Merge
-Il comando merge crea un nuovo commit che include le modifiche provenienti da altri commit. Si dice che si mergia il ramo di origine nel ramo di destinazione.
+Il comando merge crea un nuovo commit che include le modifiche provenienti da altri commit. Si dice che si mergia il ramo di origine delle modifiche nel ramo di destinazione.
 ```
     $ git chechout master // si va nel ramo che riceverà (ramo di destinazione)
     $ git merge branch-to-integrate // si specifica da chi prendere i commit (ramo di origine)
@@ -145,21 +145,20 @@ Per vedere temporaneamente un commit:
 ```
     $ git checkout 65476fa 
     $ git checkout 65476fa index.html // per vedere temporanemante solo un file
-    $ git checkout master  // per tornare allo stato “current” del progetto
+    $ git checkout master             // per tornare allo stato “current” del progetto
 ```
+
+Da notare che se faccio delle modifiche ma non le aggiungo all'index una volta che faccio il checkout ad un certo commit git riporta un errore dicendo che le modifiche locali sarebbero sovrascritte dal checkout e che si deve o committare le modifiche o fare uno stash.
+
 ### reset
 Elimina le modifiche locali nella working directory e nell'index, ritornando all'ultimo committed state (non è da usare in un repository condiviso con commit pushiati da altri...)
 ```
 $ git reset --hard HEAD // HEAD si può omettere sta per branch corrente
 ```
-Il flag ` --hard ` aggiorna la working area facendola combaciare con l'index, in altre parole ogni modifica presente nella working area locale non saranno preservate. Fare l'undo dell'ultimo commit è svolto con: 
-`$ git reset --soft HEAD~1`
+Il flag ` --hard ` aggiorna la working area facendola combaciare con l'index, in altre parole ogni modifica presente nella working area locale non saranno preservate. Fare l'undo dell'ultimo commit è svolto con: `$ git reset --soft HEAD~1`
 
 ### checkout
-Nel caso si abbia qualcosa di sbagliato si può sostituire i cambiamenti fatti in locale con il comando `git checkout -- nomedelfile` questo rimpiazza le modifiche nella working area con l'ultimo contenuto presente in HEAD. I cambiamenti fatti ed aggiunti all'index, così come i nuovi files, verranno mantenuti.
-`$ git checkout HEAD  index.html // oppure git checkout -- index.html `.
-
-La differenza fondamentale tra reset e checkout sta in come l'index è interessato dai due comandi:checkout ripristina la working directory allo stato del commit, i file sono aggiunti e rimossi), mentre nel reset è come se i commit non fossero mai esistiti ed i file nella working directory non sono disturbati.
+Nel caso si abbia qualcosa di sbagliato si può sostituire i cambiamenti fatti in locale con il comando `git checkout -- nomedelfile` o `git checkout -- .` questo rimpiazza le modifiche nella working area con l'ultimo contenuto presente in HEAD. I cambiamenti fatti ed aggiunti all'index, così come i nuovi files, verranno mantenuti. La differenza fondamentale tra `reset` e `checkout` sta in come l'index è interessato dai due comandi: `checkout` ripristina la working directory allo stato del commit, i file sono aggiunti e rimossi), mentre nel reset è come se i commit non fossero mai esistiti.
 
 ### revert (la modalità + sicura di undo)
 E' possibile inoltre fare un revert del commit (producendo un nuovo commit con modifiche opposte, si cancella quindi commit pubblicati con nuovi commit che prevengono la perdita della commit history. E' utile quando un commit ha introdotto dei bug che possono essere rimossi facendo il revert del commit.
@@ -180,7 +179,7 @@ Ritornare indietro al commit indicato, modificando l'history dei commit.
     $ git stash apply "feature"
 ```
 
-## Comandi avanzati e prsonalizzati tramite alias
+## Comandi avanzati e personalizzati tramite alias
 
 Gli alias sono contenuti in una sezione dedicata dei settings:
 
