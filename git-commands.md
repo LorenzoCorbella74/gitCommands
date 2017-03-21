@@ -106,7 +106,7 @@ Il comando merge crea un nuovo commit che include le modifiche provenienti da al
 ### Rebase (Rifondazione) - rewriting history
 Il comando rebase sposta il ramo featurebranch all'estremità del master e tutti i commit di questo vengono inclusi nel ramo di destinazione. Si ha così una rifondazione della cronologia del progetto. Se il merge crea un singolo commit con due genitori preservando l'history non lineare, un rebase riporta i commit dal branch corrente su un altro producendo una history lineare. E' un modo automatizzato di eseguire in sequenza diversi cherry-pick.
 ```
-    $ git chechout featurebranch // si va nel ramo che vogliamo muovere
+    $ git chechout featurebranch     // si va nel ramo che vogliamo muovere
     $ git rebase branch-to-integrate // si specifica l'origine  a cui attaccheremo tutti i commit di featurebranch
 ```
 
@@ -126,7 +126,7 @@ Siamo nel mezzo dello sviluppo di qualche funzionalità, ma emerge la necessità
 ```
 
 ## Conflicts
-Per risolvere i conflitti si utilizzano vari tool. Per incorporare un altro branch nel tuo branch attivo, utilizza `$ git merge nomebranch`, e git prova ad auto-incorporare le modifiche. Sfortunatamente, a volte questa procedura automatizzata non è possibile, ed in questo caso ci saranno dei conflitti. Sei tu il responsabile che sistemerà questi conflitti manualmente modificando i file che git mostrerà. Dopo aver cambiato questi files, dovrai marcarli come 'correttamente incorporati' tramite 'git add nomedelfileeditato' e prima di immettere le modifiche.
+Per risolvere i conflitti si utilizzano vari tool. Per incorporare un altro branch nel branch attivo si utilizza `$ git merge nomebranch`, e git prova ad auto-incorporare le modifiche. Sfortunatamente, a volte questa procedura automatizzata non è possibile, ed in questo caso ci saranno dei conflitti che dovranno essere sistemati manualmente modificando i file che git mostrerà. Dopo aver cambiato questi files, si devono marcare come 'correttamente incorporati' tramite 'git add nomedelfileeditato' e poi committare le modifiche/il merge.
 ```
     <<<<<<<<< HEAD indica ciò che è contenuto nel branch corrente
 
@@ -134,10 +134,10 @@ Per risolvere i conflitti si utilizzano vari tool. Per incorporare un altro bran
 
     >>>>>>>>> nomedelbranch
 
-     $ git mergetool                            // usa il tool configurato per risolvere i conflitti
+     $ git mergetool    // usa il tool configurato per risolvere i conflitti
      $ git diff branch_sorgente branch_target
-     $ git add resolved-file                    // marcare i file  risolti manualmente
-     $ git commit                               // committare i cambiamenti del merge
+     $ git add resolved-file   // marcare i file  risolti manualmente
+     $ git commit              // committare i cambiamenti del merge
 ```
 
 ## UNDO
@@ -148,17 +148,19 @@ Per vedere temporaneamente un commit:
     $ git checkout master             // per tornare allo stato “current” del progetto
 ```
 
-Da notare che se faccio delle modifiche ma non le aggiungo all'index una volta che faccio il checkout ad un certo commit git riporta un errore dicendo che le modifiche locali sarebbero sovrascritte dal checkout e che si deve o committare le modifiche o fare uno stash.
+Da notare che se modifico dei file ma non li aggiungo all'index una volta che faccio il checkout ad un certo commit git riporta un errore dicendo che le modifiche locali sarebbero sovrascritte dal checkout e che è richiesto di committare le modifiche o fare uno stash.
 
-### reset
+### reset -> cambia dove il branch corrente punta
 Elimina le modifiche locali nella working directory e nell'index, ritornando all'ultimo committed state (non è da usare in un repository condiviso con commit pushiati da altri...)
 ```
 $ git reset --hard HEAD // HEAD si può omettere sta per branch corrente
 ```
-Il flag ` --hard ` aggiorna la working area facendola combaciare con l'index, in altre parole ogni modifica presente nella working area locale non saranno preservate. Fare l'undo dell'ultimo commit è svolto con: `$ git reset --soft HEAD~1`
+Il flag ` --hard ` aggiorna la working area facendola combaciare con l'index, in altre parole ogni modifica presente nella working area locale non saranno preservate. Fare l'undo dell'ultimo commit è svolto con: `$ git reset --soft HEAD~1`.
+Un possibile scenario potrebbe essere, si è fatto un commit non pushiato sul remoto, poi si decide di rimuoverlo con `git reset`, modificando la storia come se non fosse mai esistito.
 
-### checkout
+### checkout -> non si hanno modifiche alla commit history
 Nel caso si abbia qualcosa di sbagliato si può sostituire i cambiamenti fatti in locale con il comando `git checkout -- nomedelfile` o `git checkout -- .` questo rimpiazza le modifiche nella working area con l'ultimo contenuto presente in HEAD. I cambiamenti fatti ed aggiunti all'index, così come i nuovi files, verranno mantenuti. La differenza fondamentale tra `reset` e `checkout` sta in come l'index è interessato dai due comandi: `checkout` ripristina la working directory allo stato del commit, i file sono aggiunti e rimossi), mentre nel reset è come se i commit non fossero mai esistiti.
+Un possibile scenario potrebbe essere mettere dei file modificati nell'index senza committarli. Tramite `git checkout` si riottiene una working area pulita ma con l'index ancora presente.
 
 ### revert (la modalità + sicura di undo)
 E' possibile inoltre fare un revert del commit (producendo un nuovo commit con modifiche opposte, si cancella quindi commit pubblicati con nuovi commit che prevengono la perdita della commit history. E' utile quando un commit ha introdotto dei bug che possono essere rimossi facendo il revert del commit.
