@@ -150,6 +150,8 @@ Per vedere temporaneamente un commit "spostandosi nel tempo":
     $ git checkout 65476fa index.html // per vedere temporanemante solo un file
     $ git checkout master             // per tornare allo stato “current” del progetto
 ```
+Quando ci si muove tra i commit, git avvisa che non si è attaccati ad un branch per cui qualsiasi modifica non avrà impatto sulla posizione di alcun branch (e suggerisce anche di crearne uno col comando git checkout -b): HEAD sta puntando direttamente al commit e non ad un branch
+Lo stato in cui HEAD non punta ad un branch viene chiamato `detached head`.
 
 Da notare che se modifico dei file ma non li aggiungo all'index una volta che faccio il checkout ad un certo commit git riporta un errore dicendo che le modifiche locali sarebbero sovrascritte dal checkout e che è richiesto di committare le modifiche o fare uno stash.
 
