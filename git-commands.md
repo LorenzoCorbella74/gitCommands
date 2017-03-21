@@ -34,7 +34,7 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - Verificare cosa è successo dall'ultimo commit:`& git status`
 - Aggiungere il file indicato, modificato rispetto all'ultimo commit, nello STAGE: `& git add index.html`
 - Aggiungere tutti i file modificati nello STAGE (l'eventuale flag -p richiede di confermare ogni singola modifica): `& git add .`
-- Rimuovere il file, precedentemente aggiunto, dallo STAGE, ma mantenendo le modifiche: `& git reset -- index.html`
+- Rimuovere il file, precedentemente aggiunto, dallo STAGE, ma mantenendo le modifiche: `& git reset-- index.html` o `git reset -q HEAD -- index.html`
 - Committare i file indica salvare uno snapshot dello stage. Git committerà soltanto cambiamenti nello stage(index) e non i cambiamenti nella working directory. Git ragione per cambiamenti pertanto ogni commit ha un riferimento al proprio padre: `  & git commit -m "Messaggio del commit"`
 
 - Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un commit distinto): `  & git commit --amend -m "New commit message `
@@ -57,6 +57,7 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - ` $ git shortlog` riporta una lista dei commit suddivisi per autore.
 
 ## Differenze
+- Mostra l’elenco delle modifiche che devo applicare a `from` perché il progetto diventi identico a quello fotografato in `to`:  ` & git from to  `
 - Mostra le differenze tra lo Stage e la working directory:  ` & git diff  `
 - Mostra le differenze tra due commit: `& git diff 65476fa 4b8e1ad `
 - Mostra le differenze tra due commit(il + recente prima, il + vecchio dopo): `& git diff 65476fa..4b8e1ad `
@@ -190,12 +191,12 @@ Gli alias sono contenuti in una sezione dedicata dei settings:
 Utilizzando gli alias è possibile semplificare i comandi di git impartiti da terminale (quelli globali, quelli del progetto attuale etc):
 
 - shorthand del git status: 
-` > git config --global alias.st status --short --branch` oppure lo shorthand`-sb`
+` > git config --global alias.st status --short --branch` o `-sb`
 
 - shorthand per committare tutti i file modificati:
 ` > git config --global alias.cma "commit --all -m"`
 
-- shorthand per quick merge (si lavora in un branch e poi si mergia in master con l'unione di due comandi:
+- shorthand per quick merge: si lavora in un branch e poi si mergia in master con l'unione di due comandi:
 ` > git config --global alias.qm '!git checkout $1; git merge @{-1}'` si usa con: 
 ` > git qm master`
 
