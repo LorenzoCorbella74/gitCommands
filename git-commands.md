@@ -91,6 +91,8 @@ Il comando 'pull' è di fatto uno shortcut per 'fetch' seguito da 'merge' e può
 
 ```
 
+Quando si lavora con un repository condiviso è possibile vedersi rigettare un push in quanto altri hanno modifiche più recenti ai file nella local history. E' possibile risolvere con: ` git pull --rebase` e poi `git push origin/master`.
+
 ## Merge & Rebase
 In GIT ci sono due modi per integrare i cambiamenti da un ramo all'altro: `MERGE` e `REBASE`.
 
