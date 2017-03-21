@@ -15,7 +15,7 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 
 ## Creare Repository
 - Creare un repository locale: ` & git init`
-- Clonare un repository remoto esistente. Il comando `clone` di fatto crea una nuova directory, stabilisce un 'upstream remote traking' con un repository remoto e fa il checkout sul branch attivo:  ` & git clone https://github.com/LorenzoCorbella74/gitCommands.git `
+- Clonare un repository remoto esistente. Il comando `clone` di fatto crea una nuova directory, stabilisce un 'upstream remote traking' con un repository remoto, fa il checkout sul branch attivo e riproduce in locale una copia completa della storia dei commit di un repository:  ` & git clone https://github.com/Lorenzo74/gitCommands.git `
 - Clonare branch specifici su github:
 ```
     // per clonare solo un branch specifico
@@ -144,7 +144,7 @@ Per risolvere i conflitti si utilizzano vari tool. Per incorporare un altro bran
 ```
 
 ## UNDO
-Per vedere temporaneamente un commit:
+Per vedere temporaneamente un commit "spostandosi nel tempo":
 ```
     $ git checkout 65476fa 
     $ git checkout 65476fa index.html // per vedere temporanemante solo un file
@@ -165,8 +165,8 @@ Un possibile scenario potrebbe essere, si è fatto un commit non pushiato sul re
 Nel caso si abbia qualcosa di sbagliato si può sostituire i cambiamenti fatti in locale con il comando `git checkout -- nomedelfile` o `git checkout -- .` questo rimpiazza le modifiche nella working area con l'ultimo contenuto presente in HEAD. I cambiamenti fatti ed aggiunti all'index, così come i nuovi files, verranno mantenuti. La differenza fondamentale tra `reset` e `checkout` sta in come l'index è interessato dai due comandi: `checkout` ripristina la working directory allo stato del commit, i file sono aggiunti e rimossi), mentre nel reset è come se i commit non fossero mai esistiti.
 Un possibile scenario potrebbe essere mettere dei file modificati nell'index senza committarli. Tramite `git checkout` si riottiene una working area pulita ma con l'index ancora presente.
 
-### revert (la modalità + sicura di undo)
-E' possibile inoltre fare un revert del commit (producendo un nuovo commit con modifiche opposte, si cancella quindi commit pubblicati con nuovi commit che prevengono la perdita della commit history. E' utile quando un commit ha introdotto dei bug che possono essere rimossi facendo il revert del commit.
+### revert
+E' possibile inoltre fare un revert del commit (producendo un nuovo commit con modifiche opposte, si cancella quindi commit pubblicati con nuovi commit che prevengono la perdita della commit history. E' utile quando un commit ha introdotto dei bug che possono essere rimossi facendo il revert delle modifiche in precedenza applicate. E' la modalità di UNDO considerata + sicura.
 ```
     $ git revert 65476fa
     $ git revert HEAD~2..HEAD // fa il revert degli ultimi due commit
