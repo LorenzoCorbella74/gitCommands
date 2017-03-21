@@ -105,6 +105,8 @@ Il comando merge crea un nuovo commit che include le modifiche provenienti da al
 ```
 
 ### Rebase (Rifondazione) - rewriting history
+![rebase](rebase.png)
+
 Il comando rebase sposta il ramo featurebranch all'estremità del master e tutti i commit di questo vengono inclusi nel ramo di destinazione. Si ha così una rifondazione della cronologia del progetto. Se il merge crea un singolo commit con due genitori preservando l'history non lineare, un rebase riporta i commit dal branch corrente su un altro producendo una history lineare. E' un modo automatizzato di eseguire in sequenza diversi cherry-pick.
 ```
     $ git chechout featurebranch     // si va nel ramo che vogliamo muovere
