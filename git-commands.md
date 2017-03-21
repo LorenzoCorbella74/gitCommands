@@ -57,7 +57,6 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - Il flag `--stat` mostra l'hash, l'autore, la data e una sintesi dei file modificati, `--oneline` produce righe con hash e il msg del commit, mentre `--decorate` indica anche il branch e i tag, `--graph` disegna un grafico indicante il commit history. Si può formattare il log con `--pretty=format:"%cn committed %h on %cd"` o filtrare la commit history per data `git log --after="2014-7-1" --before="2014-7-4"` o per autore `git log --author="John"`, il flag `-n10` mostra gli ultimi 10 commit. 
 - ` $ git shortlog` riporta una lista dei commit suddivisi per autore.
 
-
 ## Differenze
 - Mostra le differenze tra lo Stage e la working directory:  ` & git diff  `
 - Mostra le differenze tra due commit: `& git diff 65476fa 4b8e1ad `
@@ -65,7 +64,6 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - Mostrare le differenze tra due branch: `git diff branch_sorgente branch_target`
 - Mostrare le differenze tra un tag e la working directory (il flag --stat indica un resoconto dei cambiamenti): `git diff v1.0`
 - mostrare resoconto tra due branch:  `git diff --stat nomebranch1 nomebranch2`
-
 
 ## Branch
 Ogni qual volta si inizia una nuova feature, bugfix, o esperimento si deve creare un nuovo branch che sono dei semplici puntatori a commit (nei trasizionali VCS invece sono di solito delle copie dei working files).
@@ -103,11 +101,11 @@ Il comando merge crea un nuovo commit che include le modifiche provenienti da al
     $ git merge branch-to-integrate // si specifica da chi prendere i commit (ramo di origine)
 ```
 
-### Rebase (Rifondazione)
+### Rebase (Rifondazione) - rewriting history
 Il comando rebase sposta il ramo featurebranch all'estremità del master e tutti i commit di questo vengono inclusi nel ramo di destinazione. Si ha così una rifondazione della cronologia del progetto. Se il merge crea un singolo commit con due genitori preservando l'history non lineare, un rebase riporta i commit dal branch corrente su un altro producendo una history lineare. E' un modo automatizzato di eseguire in sequenza diversi cherry-pick.
 ```
-    $ git chechout featurebranch // si va nel ramo che riceverà (ramo di destinazione)
-    $ git rebase branch-to-integrate // si specifica l'origine  da chi prendere le modifiche
+    $ git chechout featurebranch // si va nel ramo che vogliamo muovere
+    $ git rebase branch-to-integrate // si specifica l'origine  a cui attaccheremo tutti i commit di featurebranch
 ```
 
 ### Cherry Pick
@@ -128,9 +126,16 @@ Siamo nel mezzo dello sviluppo di qualche funzionalità, ma emerge la necessità
 ## Conflicts
 Per risolvere i conflitti si utilizzano vari tool. Per incorporare un altro branch nel tuo branch attivo, utilizza `$ git merge nomebranch`, e git prova ad auto-incorporare le modifiche. Sfortunatamente, a volte questa procedura automatizzata non è possibile, ed in questo caso ci saranno dei conflitti. Sei tu il responsabile che sistemerà questi conflitti manualmente modificando i file che git mostrerà. Dopo aver cambiato questi files, dovrai marcarli come 'correttamente incorporati' tramite 'git add nomedelfileeditato' e prima di immettere le modifiche.
 ```
+    <<<<<<<<< HEAD indica ciò che è contenuto nel branch corrente
+
+    ========= separatore
+
+    >>>>>>>>> nomedelbranch
+
      $ git mergetool                            // usa il tool configurato per risolvere i conflitti
      $ git diff branch_sorgente branch_target
-     $ git add resolved-file                    // marcare i file come risolti
+     $ git add resolved-file                    // marcare i file  risolti manualmente
+     $ git commit                               // committare i cambiamenti del merge
 ```
 
 ## UNDO
@@ -140,15 +145,19 @@ Per vedere temporaneamente un commit:
     $ git checkout 65476fa index.html // per vedere temporanemante solo un file
     $ git checkout master  // per tornare allo stato “current” del progetto
 ```
-
-Elimina le modifiche locali nella working directory, ritornando all'ultimo committed state:
+### reset
+Elimina le modifiche locali nella working directory e nell'index, ritornando all'ultimo committed state (non è da usare in un repository condiviso con commit pushiati da altri...)
 ```
 $ git reset --hard HEAD // HEAD si può omettere sta per branch corrente
 ```
-
+### checkout
 Nel caso si abbia qualcosa di sbagliato si può sostituire i cambiamenti fatti in locale con il comando `git checkout -- nomedelfile` questo rimpiazza le modifiche nella working area con l'ultimo contenuto presente in HEAD. I cambiamenti fatti ed aggiunti all'index, così come i nuovi files, verranno mantenuti.
-`$ git checkout HEAD  index.html // oppure git checkout -- index.html `
+`$ git checkout HEAD  index.html // oppure git checkout -- index.html `.
 
+La differenza fondamentale tra reset e checkout sta in come l'index è interessato dai due comandi:checkout ripristina la working directory allo stato del commit, i file sono aggiunti e rimossi), mentre nel reset è come se i commit non fossero mai esistiti ed i file nella working directory non sono disturbati.
+
+
+### revert (la modalità + sicura di undo)
 E' possibile inoltre fare un revert del commit (producendo un nuovo commit con modifiche opposte, si cancella quindi commit pubblicati con nuovi commit che prevengono la perdita della commit history. E' utile quando un commit ha introdotto dei bug che possono essere rimossi facendo il revert del commit.
 ```
     $ git revert 65476fa
@@ -167,7 +176,7 @@ Ritornare indietro al commit indicato, modificando l'history dei commit.
     $ git stash apply "feature"
 ```
 
-## Comandi avanzati tramite alias
+## Comandi avanzati e prsonalizzati tramite alias
 
 Gli alias sono contenuti in una sezione dedicata dei settings:
 
@@ -195,6 +204,3 @@ Utilizzando gli alias è possibile semplificare i comandi di git impartiti da te
 - shorthand per git diff:
 ` > git config --global core.pager 'less -RFX' `
 ` > git config --global alias.dp 'diff --word-diff --unified=10 --histogram' `
-
-
-
