@@ -1,8 +1,5 @@
 # GIT: Principali comandi & Workflow
 
-
-
-
 ## Help & Utilities
 - Apre il browser con il readme di aiuto del comando specificato:  ` & git nomecomando --help`
 - Cerca nella working directory il testo 'pippo'  `$ git grep "pippo"`
@@ -57,20 +54,21 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - Mostra l'hash, l'autore e la data di tutti i commit partendo dal primo:  ` & git log`
 - Mostra le modifiche nel tempo di un unico file:  ` & git log -p index.html`
 - Mostra chi ha cambiato, cosa e quando di un unico file:  ` & git blame index.html`
-- Il flag `--stat` mostra l'hash, l'autore, la data e una sintesi dei file modificati, `--oneline` produce righe con hash e il msg del commit, mentre `--decorate` indica anche il branch e i tag, `--graph` disegna un grafico indicante il commit history. Si può formattare il log con `--pretty=format:"%cn committed %h on %cd"` o filtrare la commit history per data `git log --after="2014-7-1" --before="2014-7-4"` o per autore `git log --author="John"`. 
+- Il flag `--stat` mostra l'hash, l'autore, la data e una sintesi dei file modificati, `--oneline` produce righe con hash e il msg del commit, mentre `--decorate` indica anche il branch e i tag, `--graph` disegna un grafico indicante il commit history. Si può formattare il log con `--pretty=format:"%cn committed %h on %cd"` o filtrare la commit history per data `git log --after="2014-7-1" --before="2014-7-4"` o per autore `git log --author="John"`, il flag `-n10` mostra gli ultimi 10 commit. 
 - ` $ git shortlog` riporta una lista dei commit suddivisi per autore.
 
 
 ## Differenze
 - Mostra le differenze tra lo Stage e la working directory:  ` & git diff  `
 - Mostra le differenze tra due commit: `& git diff 65476fa 4b8e1ad `
+- Mostra le differenze tra due commit(il + recente prima, il + vecchio dopo): `& git diff 65476fa..4b8e1ad `
 - Mostrare le differenze tra due branch: `git diff branch_sorgente branch_target`
 - Mostrare le differenze tra un tag e la working directory (il flag --stat indica un resoconto dei cambiamenti): `git diff v1.0`
 - mostrare resoconto tra due branch:  `git diff --stat nomebranch1 nomebranch2`
 
 
 ## Branch
-Ogni qual volta si inizia una nuova feature, bugfix, o esperimento si deve creare un nuovo branch!.
+Ogni qual volta si inizia una nuova feature, bugfix, o esperimento si deve creare un nuovo branch che sono dei semplici puntatori a commit (nei trasizionali VCS invece sono di solito delle copie dei working files).
 - Mostrare tutti i branch correnti:  `& git branch -av `
 - Per switchare ad un branch specifico:  `& git checkout nomebranch `
 - Creare un nuovo branch basato sull'ultimo commit (HEAD):  `& git branch nomebranch`
@@ -79,19 +77,6 @@ Ogni qual volta si inizia una nuova feature, bugfix, o esperimento si deve crear
 - Cancellare un branch locale:  `& git branch -d nomebranch `
 - Cancellare un branch remoto:  `& git branch -dr remote/branch`
 - Il branch non sarà disponibile agli altri fino a quando non verrà inviato al repository remoto  `$ git push -u remote(origin) local-branch // -u sta per 'upstream`
-
-## STASH
-Siamo nel mezzo dello sviluppo di qualche funzionalità, ma emerge la necessità di interrompere tutto per dedicarsi al bugfix sul commit precedente: non si può perdere il lavoro non committato e si accantona il codice non committatato (lo stato della working directory e dell'index) e si ritorna allo stato dell'ultimo commit con uno stato pulito della working directory:
-```
-    $ git stash -a "nomeStash" // -a permette di dare un nome all'accantonamento
-    $ git stash list           // elenca una coda di stash
-    $ git stash apply          // quando si è pronti a ritornare da dove si era lasciato il comando riporta indietro ai cambiamenti fatti nella working directory
-    $ git stash pop            // stessa cosa di apply ma rimuove lo stato dallo stash list
-    $ git stash drop           // rimuove l'ultimo stash
-    $ git stash clear          // pulisce la lista di stash
-    $ git stash branch testchanges // crea un branch da uno stash
-```
-
 
 ## Update and Publish
 ### Repository remoti
@@ -127,7 +112,18 @@ Il comando rebase sposta il ramo featurebranch all'estremità del master e tutti
 
 ### Cherry Pick
 Per copiare un commit da un branch ad un altro si utilizza il comando cherry-pick. Il comando copia un commit creandone uno nuovo nel branch corrente con lo stesso msg dell'originale applicando le modifiche come se fosse un commit diverso: `  $ git cherry-pick 65476fa`
-    
+
+## STASH
+Siamo nel mezzo dello sviluppo di qualche funzionalità, ma emerge la necessità di interrompere tutto per dedicarsi al bugfix sul commit precedente: non si può perdere il lavoro non committato e si accantona il codice non committatato (lo stato della working directory e dell'index) e si ritorna allo stato dell'ultimo commit con uno stato pulito della working directory:
+```
+    $ git stash -a "nomeStash" // -a permette di dare un nome all'accantonamento
+    $ git stash list           // elenca una coda di stash
+    $ git stash apply          // quando si è pronti a ritornare da dove si era lasciato il comando riporta indietro ai cambiamenti fatti nella working directory
+    $ git stash pop            // stessa cosa di apply ma rimuove lo stato dallo stash list
+    $ git stash drop           // rimuove l'ultimo stash
+    $ git stash clear          // pulisce la lista di stash
+    $ git stash branch testchanges // crea un branch da uno stash
+```
 
 ## Conflicts
 Per risolvere i conflitti si utilizzano vari tool. Per incorporare un altro branch nel tuo branch attivo, utilizza `$ git merge nomebranch`, e git prova ad auto-incorporare le modifiche. Sfortunatamente, a volte questa procedura automatizzata non è possibile, ed in questo caso ci saranno dei conflitti. Sei tu il responsabile che sistemerà questi conflitti manualmente modificando i file che git mostrerà. Dopo aver cambiato questi files, dovrai marcarli come 'correttamente incorporati' tramite 'git add nomedelfileeditato' e prima di immettere le modifiche.
