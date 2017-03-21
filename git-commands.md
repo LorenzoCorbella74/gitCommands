@@ -98,7 +98,7 @@ Quando si lavora con un repository condiviso è possibile vedersi rigettare un p
 In GIT ci sono due modi per integrare i cambiamenti da un ramo all'altro: `MERGE` e `REBASE`.
 
 ### Merge
-Il comando merge crea un nuovo commit che include le modifiche provenienti da altri commit. Si dice che si mergia il ramo di origine delle modifiche nel ramo di destinazione.
+Il comando merge crea un nuovo commit che include le modifiche provenienti da un commit contenente tutte le modifiche del branch di destinazione e un commit con tutte le modifiche del ramo di origine. E' un commit avente due padri. Si dice che si mergia il ramo di origine delle modifiche nel ramo di destinazione.
 ```
     $ git chechout master // si va nel ramo che riceverà (ramo di destinazione)
     $ git merge branch-to-integrate // si specifica da chi prendere i commit (ramo di origine)
