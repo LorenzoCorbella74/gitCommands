@@ -7,15 +7,14 @@
 
 ## Settare le impostazioni globali
 Per settare l'utente e relativa email:
-
-` > git config --global user.name "Lorenzo Corbella"`
-
-` > git config --global user.email "l.corbella@dstech.it"`
-
+```
+    > git config --global user.name "Lorenzo Corbella"
+    > git config --global user.email "l.corbella@dstech.it"
+```
 Per vedere la lista dei parametri di configurazione: ` > git config --list`
 
 ## Creare Repository
-- Creare un repository locale: ` & git init `
+- Creare un repository locale: ` & git init`
 - Clonare un repository remoto esistente. Il comando `clone` di fatto crea una nuova directory, stabilisce un 'upstream remote traking' con un repository remoto e fa il checkout sul branch attivo:  ` & git clone https://github.com/LorenzoCorbella74/gitCommands.git `
 - Clonare branch specifici su github:
 ```
@@ -36,9 +35,9 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - Aggiungere il file indicato, modificato rispetto all'ultimo commit, nello STAGE: `& git add index.html`
 - Aggiungere tutti i file modificati nello STAGE (l'eventuale flag -p richiede di confermare ogni singola modifica): `& git add .`
 - Rimuovere il file, precedentemente aggiunto, dallo STAGE, ma mantenendo le modifiche: `& git reset -- index.html`
-- Committare i file, salvare uno snapshot dello stage. Git ragione per cambiamenti pertanto ogni commit ha un  riferimento al proprio padre: `& git commit -m "Messaggio del commit"  `
+- Committare i file indica salvare uno snapshot dello stage. Git committerà soltanto cambiamenti nello stage(index) e non cambiamenti nella working directory. Git ragione per cambiamenti pertanto ogni commit ha un riferimento al proprio padre: `& git commit -m "Messaggio del commit"  `
 
-- Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un commit distinto): `  & git commit --amend  `
+- Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un commit distinto): `  & git commit --amend -m "New commit message `
 - Per vedere i dettagli di un commit:  `  & git show 65476fa `
 - I 'tag' sono utili per avere dei bookmark dei commit effettuati. Per marcare il commit corrente con un tag e poterlo in seguito confrontare con altri commit (mentre il flag -a permette di avere un tag annotato, cioè un msg):`& git tag v1.0  ` o per specificare il commit da taggare `& git -a 4b8e1ad`.
 
@@ -76,6 +75,7 @@ Ogni qual volta si inizia una nuova feature, bugfix, o esperimento si deve crear
 - Cancellare un branch remoto:  `& git branch -dr remote/branch`
 - Il branch non sarà disponibile agli altri fino a quando non verrà inviato al repository remoto  `$ git push -u remote(origin) local-branch // -u sta per 'upstream`
 
+
 ## Update and Publish
 ### Repository remoti
 Il comando 'pull' è di fatto uno shortcut per 'fetch' seguito da 'merge' e può scaricare l'intero repository o uno specifico branch. Pushiare dei cambiamenti richiede prima che venga fatto un pull: questa azione può portare a dei conflitti nel merge, in quanto altri developer possono avere aggiornato file specifici prima di noi.
@@ -91,7 +91,7 @@ Il comando 'pull' è di fatto uno shortcut per 'fetch' seguito da 'merge' e può
 
 ```
 
-Quando si lavora con un repository condiviso è possibile vedersi rigettare un push in quanto altri hanno modifiche più recenti ai file nella local history. E' possibile risolvere con: ` git pull --rebase` e poi `git push origin/master`.
+Quando si lavora con un repository condiviso è possibile vedersi rigettare un push in quanto altri hanno modifiche più recenti ai file nella local historyext install githistory. E' possibile risolvere con: ` git pull --rebase` e poi `git push origin/master`.
 
 ## Merge & Rebase
 In GIT ci sono due modi per integrare i cambiamenti da un ramo all'altro: `MERGE` e `REBASE`.
@@ -116,12 +116,12 @@ Per copiare un commit da un branch ad un altro si utilizza il comando cherry-pic
 ## STASH
 Siamo nel mezzo dello sviluppo di qualche funzionalità, ma emerge la necessità di interrompere tutto per dedicarsi al bugfix sul commit precedente: non si può perdere il lavoro non committato e si accantona il codice non committatato (lo stato della working directory e dell'index) e si ritorna allo stato dell'ultimo commit con uno stato pulito della working directory:
 ```
-    $ git stash -a "nomeStash" // -a permette di dare un nome all'accantonamento
-    $ git stash list           // elenca una coda di stash
-    $ git stash apply          // quando si è pronti a ritornare da dove si era lasciato il comando riporta indietro ai cambiamenti fatti nella working directory
-    $ git stash pop            // stessa cosa di apply ma rimuove lo stato dallo stash list
-    $ git stash drop           // rimuove l'ultimo stash
-    $ git stash clear          // pulisce la lista di stash
+    $ git stash -a "nomeStash"     // -a permette di dare un nome all'accantonamento
+    $ git stash list               // elenca una coda di stash
+    $ git stash apply              // quando si è pronti a ritornare da dove si era lasciato il comando riporta indietro ai cambiamenti fatti nella working directory
+    $ git stash pop                // stessa cosa di apply ma rimuove lo stato dallo stash list
+    $ git stash drop               // rimuove l'ultimo stash
+    $ git stash clear              // pulisce la lista di stash
     $ git stash branch testchanges // crea un branch da uno stash
 ```
 
@@ -152,12 +152,14 @@ Elimina le modifiche locali nella working directory e nell'index, ritornando all
 ```
 $ git reset --hard HEAD // HEAD si può omettere sta per branch corrente
 ```
+Il flag ` --hard ` aggiorna la working area facendola combaciare con l'index, in altre parole ogni modifica presente nella working area locale non saranno preservate. Fare l'undo dell'ultimo commit è svolto con: 
+`$ git reset --soft HEAD~1`
+
 ### checkout
 Nel caso si abbia qualcosa di sbagliato si può sostituire i cambiamenti fatti in locale con il comando `git checkout -- nomedelfile` questo rimpiazza le modifiche nella working area con l'ultimo contenuto presente in HEAD. I cambiamenti fatti ed aggiunti all'index, così come i nuovi files, verranno mantenuti.
 `$ git checkout HEAD  index.html // oppure git checkout -- index.html `.
 
 La differenza fondamentale tra reset e checkout sta in come l'index è interessato dai due comandi:checkout ripristina la working directory allo stato del commit, i file sono aggiunti e rimossi), mentre nel reset è come se i commit non fossero mai esistiti ed i file nella working directory non sono disturbati.
-
 
 ### revert (la modalità + sicura di undo)
 E' possibile inoltre fare un revert del commit (producendo un nuovo commit con modifiche opposte, si cancella quindi commit pubblicati con nuovi commit che prevengono la perdita della commit history. E' utile quando un commit ha introdotto dei bug che possono essere rimossi facendo il revert del commit.
