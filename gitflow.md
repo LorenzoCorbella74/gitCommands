@@ -1,4 +1,4 @@
-# Gitflow
+# Gitflow Principali comandi ed esempi di workflow
 
 ## Table of Contents
  - [Introduzione](#introduzione)
@@ -52,8 +52,9 @@ Gli Hotfixes nascono dalla necessità di agire immediatamente di fronte ad uno s
     > git flow hotfix start VERSION [BASENAME]  // si stacca da master un branch hotfix
     > git flow hotfix publish VERSION          // si pubblica il branch in remoto
     > git flow hotfix track/pull VERSION       // si scarica il branch in remoto
-    > git flow hotfix finish VERSION    // (erge all'indietro all'interno di 'develop' e di 'master' ed il master viene taggato con la versone dell'hotfix
+    > git flow hotfix finish VERSION    // merge in 'develop' e in 'master', solo il master viene taggato con la versone dell'hotfix, eventualmente l'hotfix local branch viene creato e si riposiziona su develop
 ```
+
 
 [Go to top](#table-of-contents)
 
