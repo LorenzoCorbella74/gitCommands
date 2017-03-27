@@ -146,7 +146,7 @@ Il comando merge crea un nuovo commit che include le modifiche provenienti da un
 ```
 
 ### Rebase (Rifondazione) - rewriting history
-![rebase](rebase.png)
+![rebase](img/rebase.png)
 
 Il comando rebase è particolarmente utilizzato per:
 

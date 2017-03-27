@@ -12,7 +12,7 @@
 ## Introduzione
 
 Gitflow è un set di istruzioni che definisce un branching model avanzato creato da  [Vincent Driessen](http://nvie.com/posts/a-successful-git-branching-model/). Ci sono altre strategie riconosciute di branching quali il modello centralised (un unico server centralizzato a cui tutti i developer pullato e pushano modifiche locali), il feature branch (ogni sviluppatore crea un proprio branch per la propria attività) etc. Gitflow, anche se più complicato permette una maggiore flessibilità in quanto la storia del progetto è tracciata da due branch, generalmente `master`, e `develop` e ogni feature e ogni bugfix risiede nel proprio branch (che una volta terminati sono mergiati sia su master che develop). Una volta pronti si può fare un branch di release in cui finiscono tutti gli hotfix (branch di master) ed i feature branch (branch di develop).
-![model](gitflow.png)
+![model](img/gitflow.png)
 Git-flow è una soluzione basata sul merge. Non esegue il rebase su i feature branch.
 
 ## Inizializzazione
