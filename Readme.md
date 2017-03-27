@@ -54,8 +54,8 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - Rimuovere il file, precedentemente aggiunto, dallo STAGE, ma mantenendo le modifiche: `$  git reset-- index.html` o `git reset -q HEAD -- index.html`
 - Committare i file indica salvare uno snapshot dello stage. Git committerà soltanto cambiamenti nello stage(index) e non i cambiamenti nella working directory. Git ragione per cambiamenti pertanto ogni commit ha un riferimento al proprio padre: `  $  git commit -m "Messaggio del commit"` . Il flag `-am` committa direttamente i file modificati dalla working area all'HEAD senza passare dallo stage.
 
-- Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un nuovo commit): `  $  git commit --amend -m "New commit message `. 
-- Per vedere i dettagli di un commit:  `  $  git show 65476fa `
+- Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un nuovo commit): `  $  git commit --amend -m "New commit message `. Se non aggiungo il commento si apre un editor e posso modificare il commento. Con 'amend' cambia lo SHA dell'ultimo commit.
+- Per vedere i dettagli di un commit:  `  $  git show 65476fa ` oppure  `  $  git show nome_tag `
 
 ## Tag
 I 'tag' rappresentano dei bookmark 'personali' dei commit locali. 
@@ -79,9 +79,10 @@ NB: Per poi visionare un commit taggato si usa: `$ git show nome_tag` ma è più
 
 [Go to top](#table-of-contents)
 
-## Commit history
+## Log: Commit history
 - Mostra l'hash, l'autore e la data di tutti i commit partendo dal primo:  ` $  git log`
 - Mostra le modifiche nel tempo di un unico file:  ` $  git log -p index.html`
+- Mostra le modifiche ancora non incluse nel branch attuale rispetto a master:  ` $  git log ..master`
 - Mostra chi ha cambiato, cosa e quando di un unico file:  ` $  git b lame index.html`
 - Il flag `--stat` mostra l'hash, l'autore, la data e una sintesi dei file modificati, `--oneline` produce righe con hash e il msg del commit, mentre `--decorate` indica anche il branch e i tag, `--graph` disegna un grafico indicante il commit history, `--all` mostra tutti i commit. Si può formattare il log con `--pretty=format:"%cn committed %h on %cd"` o filtrare la commit history per data `git log --after="2014-7-1" --before="2014-7-4"` o per autore `git log --author="John"`, il flag `-n10` mostra gli ultimi 10 commit. 
 - ` $ git shortlog` riporta una lista dei commit suddivisi per autore.
@@ -131,7 +132,7 @@ Quando si lavora con un repository condiviso è possibile vedersi rigettare un p
 
 [Go to top](#table-of-contents)
 
-## Merge Rebase
+## Merge & Rebase
 In GIT ci sono due modi per integrare i cambiamenti da un ramo all'altro: `MERGE` e `REBASE`.
 
 ### Merge
@@ -144,11 +145,21 @@ Il comando merge crea un nuovo commit che include le modifiche provenienti da un
 ### Rebase (Rifondazione) - rewriting history
 ![rebase](rebase.png)
 
-Il comando rebase sposta il ramo featurebranch all'estremità del master e tutti i commit di questo vengono inclusi nel ramo di destinazione. Si ha così una rifondazione della cronologia del progetto. Se il merge crea un singolo commit con due genitori preservando l'history non lineare, un rebase riporta i commit dal branch corrente su un altro producendo una history lineare. E' un modo automatizzato di eseguire in sequenza diversi cherry-pick.
+Il comando rebase è particolarmente utilizzato per:
+
+- spostare il ramo featurebranch all'estremità del master e tutti i commit di questo vengono inclusi nel ramo di destinazione. Si ha così una rifondazione della cronologia del featurebranch. Se il merge crea un singolo commit con due genitori preservando l'history non lineare, un rebase riporta i commit dal branch corrente su un altro producendo una history lineare. E' un modo automatizzato di eseguire in sequenza diversi cherry-pick.
 ```
     $ git chechout featurebranch     // si va nel ramo che vogliamo muovere
-    $ git rebase branch-to-integrate // si specifica l'origine  a cui attaccheremo tutti i commit di featurebranch
+    $ git rebase branch-to-integrate // si specifica il nome del branch che ha i commit che voglio integrare nel mio featurebranch
 ```
+- Combinare insieme diversi commit:
+- troncare un branch prima di mergiarlo con git mege --no-ff nomebranch_troncato
+- combinare i cambiamenti in un altro branch
+- cambiare i precedenti commit (con un rebase interattivo)
+```
+    $ git rebase -i 3gt56er9  (o git rebase -i HEAD~4 per tornare indietro di 4)
+```
+Per il rebase interattivo si specifica il 1° commit precedente a quello da cui si vuole partire per poi applicare sui successivi delle operazioni ('pick' tiene il commit, 'swash' per combinarlo con il precedente tenendo il message). Si può modificare l'ordine e cancellare dei commit, rimuovendo semplicemente la riga: git poi aprirà l'editor per poi modificare i commenti dei commi risultanti (wq per chiudere l'editor).
 
 ### Cherry Pick
 Per copiare un commit da un branch ad un altro si utilizza il comando cherry-pick. Il comando copia un commit creandone uno nuovo nel branch corrente con lo stesso msg dell'originale applicando le modifiche come se fosse un commit diverso: `  $ git cherry-pick 65476fa`
@@ -165,13 +176,13 @@ Cherry-pick si comporta proprio come `merge`. Se git non può applicare le modif
 [Go to top](#table-of-contents)
 
 ## Stash
-Siamo nel mezzo dello sviluppo di qualche funzionalità, ma emerge la necessità di interrompere tutto per dedicarsi al bugfix sul commit precedente: non si può perdere il lavoro non committato e si accantona il codice non committatato (lo stato della working directory e dell'index) e si ritorna allo stato dell'ultimo commit con uno stato pulito della working directory:
+Siamo nel mezzo dello sviluppo di qualche funzionalità, ma emerge la necessità di interrompere tutto per dedicarsi al bugfix sul commit precedente: non si può perdere il lavoro non committato e si accantona il codice non committatato (lo stato della working directory e dell'index) e si ritorna allo stato dell'ultimo commit con uno stato pulito della working directory.
 ```
     $ git stash -a "nomeStash"     // -a permette di dare un nome all'accantonamento
     $ git stash list               // elenca una coda di stash
     $ git stash apply              // quando si è pronti a ritornare da dove si era lasciato il comando riporta indietro ai cambiamenti fatti nella working directory
-    $ git stash pop                // stessa cosa di apply ma rimuove lo stato dallo stash list
-    $ git stash drop               // rimuove l'ultimo stash
+    $ git stash pop                // uguale a apply ma rimuove lo stato dallo stash list
+    $ git stash drop [stash_ref]   // rimuove l'ultimo stash
     $ git stash clear              // pulisce la lista di stash
     $ git stash branch testchanges // crea un branch da uno stash
 ```
@@ -200,8 +211,7 @@ Per vedere temporaneamente un commit "spostandosi nel tempo":
     $ git checkout 65476fa index.html // per vedere temporanemante solo un file
     $ git checkout master             // per tornare allo stato “current” del progetto
 ```
-Quando ci si muove tra i commit, git avvisa che non si è attaccati ad un branch per cui qualsiasi modifica non avrà impatto sulla posizione di alcun branch (e suggerisce anche di crearne uno col comando git checkout -b): HEAD sta puntando direttamente al commit e non ad un branch
-Lo stato in cui HEAD non punta ad un branch viene chiamato `detached head` e si è rimossi dalla history dei commit.
+Quando ci si muove tra i commit, git avvisa che non si è attaccati ad un branch per cui qualsiasi modifica non avrà impatto sulla posizione di alcun branch (e suggerisce anche di crearne uno col comando git checkout -b): HEAD sta puntando direttamente al commit e non ad un branch. Lo stato in cui HEAD non punta ad un branch viene chiamato `detached head` e si è rimossi dalla history dei commit.
 
 Da notare che se modifico dei file ma non li aggiungo all'index una volta che faccio il checkout ad un certo commit git riporta un errore dicendo che le modifiche locali sarebbero sovrascritte dal checkout e che è richiesto di committare le modifiche o fare uno stash.
 
@@ -214,8 +224,7 @@ Il flag ` --hard ` aggiorna la working area facendola combaciare con l'index, in
 Un possibile scenario potrebbe essere, si è fatto un commit non pushiato sul remoto, poi si decide di rimuoverlo con `git reset`, modificando la storia come se non fosse mai esistito.
 
 ### checkout
-Il comando checkout prende il commit indicato e lo copia nel file system e nella staging area, e non si hanno modifiche alla commit history.
-Nel caso si abbia qualcosa di sbagliato si può sostituire i cambiamenti fatti in locale con il comando `git checkout -- nomedelfile` o `git checkout -- .` questo rimpiazza le modifiche nella working area con l'ultimo contenuto presente in HEAD. I cambiamenti fatti ed aggiunti all'index, così come i nuovi files, verranno mantenuti. La differenza fondamentale tra `reset` e `checkout` sta in come l'index è interessato dai due comandi: `checkout` ripristina la working directory allo stato del commit, i file sono aggiunti e rimossi), mentre nel reset è come se i commit non fossero mai esistiti.
+Il comando checkout prende il commit indicato e lo copia nel file system e nella staging area, e non si hanno modifiche alla commit history. Nel caso si abbia qualcosa di sbagliato si può sostituire i cambiamenti fatti in locale, non ancora committati,  con il comando `git checkout -- nomedelfile` o `git checkout -- .` questo rimpiazza le modifiche nella working area con l'ultimo contenuto presente in HEAD. I cambiamenti fatti ed aggiunti all'index, così come i nuovi files, verranno mantenuti. La differenza fondamentale tra `reset` e `checkout` sta in come l'index è interessato dai due comandi: `checkout` ripristina la working directory allo stato del commit, i file sono aggiunti e rimossi), mentre nel reset è come se i commit non fossero mai esistiti.
 Un possibile scenario potrebbe essere mettere dei file modificati nell'index senza committarli. Tramite `git checkout` si riottiene una working area pulita ma con l'index ancora presente.
 
 ### revert
@@ -229,6 +238,8 @@ Ritornare indietro al commit indicato, modificando l'history dei commit.
 ```
     $ git reset --hard 65476fa  // ...elimina le modifiche locali nella working directory
     $ git reset  65476fa        // ...preserva le modifiche dei commit successivi a quello indicato e messi come unstaged
+    $ git reset HEAD readme.md  
+    // cancella le modifiche aggiunte allo stage e ripristina il file alla versione dell'ultimo commit (poi dovrà essere fatto git checkout -- readme.md per tornare insietro all'ultimo stato pulito...)
     $ git reset --keep 65476fa // ...e preserva modifiche locali non committate.
 
     // If I want to keep the last changes...
