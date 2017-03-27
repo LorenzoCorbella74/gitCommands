@@ -20,6 +20,7 @@
 - Apre il browser con il readme di aiuto del comando specificato:  ` $  git nomecomando --help`
 - Cerca nella working directory il testo 'pippo'  `$ git grep "pippo"`
 - per pulire la finestra: ` $ git clean // -fd per forzare il cleaning`
+- per avere tutti i riferimenti ai commit (anche quelli cancellati): ` $ git reflog`
 
 ## Impostazioni globali
 Per settare l'utente e relativa email:
@@ -91,6 +92,7 @@ NB: Per poi visionare un commit taggato si usa: `$ git show nome_tag` ma è più
 
 ## Differenze
 - Mostra le differenze tra lo Stage e la working directory:  ` $  git diff  `
+- Mostra le differenze tra l'HEAD e lo Stage:  ` $  git diff --staged `
 - Mostra l’elenco delle modifiche che devo applicare a `from` perché il progetto diventi identico a quello fotografato in `to`:  ` $  git diff from to  `
 - Mostra le differenze tra due commit: `$  git diff 65476fa 4b8e1ad `
 - Mostra le differenze incluse tra due commit(il + recente prima, il + vecchio dopo): `$  git diff 65476fa..4b8e1ad `
