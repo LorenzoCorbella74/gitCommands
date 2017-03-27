@@ -1,4 +1,4 @@
-# GIT: Principali comandi $  Workflow
+# GIT: Principali comandi ed esempi di workflow
 
 ## Table of Contents
  - [Utilities](#utilities)
@@ -71,7 +71,7 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - Mostra l'hash, l'autore e la data di tutti i commit partendo dal primo:  ` $  git log`
 - Mostra le modifiche nel tempo di un unico file:  ` $  git log -p index.html`
 - Mostra chi ha cambiato, cosa e quando di un unico file:  ` $  git blame index.html`
-- Il flag `--stat` mostra l'hash, l'autore, la data e una sintesi dei file modificati, `--oneline` produce righe con hash e il msg del commit, mentre `--decorate` indica anche il branch e i tag, `--graph` disegna un grafico indicante il commit history. Si può formattare il log con `--pretty=format:"%cn committed %h on %cd"` o filtrare la commit history per data `git log --after="2014-7-1" --before="2014-7-4"` o per autore `git log --author="John"`, il flag `-n10` mostra gli ultimi 10 commit. 
+- Il flag `--stat` mostra l'hash, l'autore, la data e una sintesi dei file modificati, `--oneline` produce righe con hash e il msg del commit, mentre `--decorate` indica anche il branch e i tag, `--graph` disegna un grafico indicante il commit history, `--all` mostra tutti i commit. Si può formattare il log con `--pretty=format:"%cn committed %h on %cd"` o filtrare la commit history per data `git log --after="2014-7-1" --before="2014-7-4"` o per autore `git log --author="John"`, il flag `-n10` mostra gli ultimi 10 commit. 
 - ` $ git shortlog` riporta una lista dei commit suddivisi per autore.
 
 [Go to top](#table-of-contents)
@@ -88,11 +88,12 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 [Go to top](#table-of-contents)
 
 ## Branch
-Ogni qual volta si inizia una nuova feature, bugfix, o esperimento si deve creare un nuovo branch che sono dei semplici puntatori a commit (nei trasizionali VCS invece sono di solito delle copie dei working files).
+Ogni qual volta si inizia una nuova feature, bugfix, o esperimento si deve creare un nuovo branch che sono dei semplici puntatori a commit, delle 'etichette' (nei trasizionali VCS invece sono di solito delle copie dei working files).
 - Mostrare tutti i branch correnti:  `$  git branch -av `
 - Per switchare ad un branch specifico:  `$  git checkout nomebranch `
 - Creare un nuovo branch basato sull'ultimo commit (HEAD):  `$  git branch nomebranch`
-- Crea un nuovo branch e passa al nuovo branch:  `$  git checkout -b feature-branch`
+- Crea un nuovo-branch e passa al nuovo branch:  `$  git checkout -b nuovo-branch`
+- Crea un nuovo-branch e passa al nuovo branch partendo da dev:  `$  git checkout -b nuovo-branch dev`
 - Creare un nuovo branch basato su un brach remoto:  `$  git checkout --track path/remote/branch `
 - Cancellare un branch locale:  `$  git branch -d nomebranch `
 - Cancellare un branch remoto:  `$  git branch -dr remote/branch`
@@ -139,6 +140,15 @@ Il comando rebase sposta il ramo featurebranch all'estremità del master e tutti
 
 ### Cherry Pick
 Per copiare un commit da un branch ad un altro si utilizza il comando cherry-pick. Il comando copia un commit creandone uno nuovo nel branch corrente con lo stesso msg dell'originale applicando le modifiche come se fosse un commit diverso: `  $ git cherry-pick 65476fa`
+Il comando può essere utile in molti casi come ad esempio per correggere un bug a metà di un ramo: in questa situazione si deve tornare indietro nel tempo e riapplicare tutti i commit corretti tranne quello che ha generato il bug:
+```
+    git checkout master
+    git branch --force feature
+    git checkout feature
+    git cherry-pick b5041f3
+    git cherry-pick 8f41bb8
+```
+Cherry-pick si comporta proprio come `merge`. Se git non può applicare le modifiche per conflitti ti richiede di risolverli e di fare il commit manualmente.
 
 [Go to top](#table-of-contents)
 
