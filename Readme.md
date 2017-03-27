@@ -15,6 +15,7 @@
  - [Conflicts](#conflicts)
  - [Undo](#undo)
  - [Comandi avanzati alias](#comandi-avanzati-alias)
+ - [Gitflow](gitflow.md)
 
 ## Utilities
 - Apre il browser con il readme di aiuto del comando specificato:  ` $  git nomecomando --help`
