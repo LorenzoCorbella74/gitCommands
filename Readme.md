@@ -5,6 +5,7 @@
  - [Impostazioni globali](#impostazioni-globali)
  - [Creare Repository](#creare-repository)
  - [Modifiche locali](#modifiche-locali)
+ - [Tag](#tag)
  - [Commit history](#commit-history)
  - [Differenze](#differenze)
  - [Branch](#branch)
@@ -51,11 +52,22 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - Aggiungere il file indicato, modificato rispetto all'ultimo commit, nello STAGE: `$  git add index.html`
 - Aggiungere tutti i file modificati nello STAGE (l'eventuale flag -p richiede di confermare ogni singola modifica): `$  git add .`
 - Rimuovere il file, precedentemente aggiunto, dallo STAGE, ma mantenendo le modifiche: `$  git reset-- index.html` o `git reset -q HEAD -- index.html`
-- Committare i file indica salvare uno snapshot dello stage. Git committerà soltanto cambiamenti nello stage(index) e non i cambiamenti nella working directory. Git ragione per cambiamenti pertanto ogni commit ha un riferimento al proprio padre: `  $  git commit -m "Messaggio del commit"`
+- Committare i file indica salvare uno snapshot dello stage. Git committerà soltanto cambiamenti nello stage(index) e non i cambiamenti nella working directory. Git ragione per cambiamenti pertanto ogni commit ha un riferimento al proprio padre: `  $  git commit -m "Messaggio del commit"` . Il flag `-am` committa direttamente i file modificati dalla working area all'HEAD senza passare dallo stage.
 
-- Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un commit distinto): `  $  git commit --amend -m "New commit message `
+- Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un nuovo commit): `  $  git commit --amend -m "New commit message `. 
 - Per vedere i dettagli di un commit:  `  $  git show 65476fa `
-- I 'tag' sono utili per avere dei bookmark dei commit effettuati. Per marcare il commit corrente con un tag e poterlo in seguito confrontare con altri commit (mentre il flag -a permette di avere un tag annotato, cioè un msg):`$  git tag v1.0  ` o per specificare il commit da taggare `$  git -a 4b8e1ad`.
+
+## Tag
+I 'tag' rappresentano dei bookmark 'personali' dei commit locali. 
+- per avere una lista dei tag: `> git tag`
+- Per marcare il commit corrente con un tag e poterlo in seguito confrontare con altri commit `$  git tag v1.0` 
+- si taggare uno specifico commit si usa lo SHA: `  $  git tag nome_tag 4b8e1ad`.
+- tramite flag -a si ottiene un tag annotato, (git apre un editor per inserire un msg): `$  git tag -a nome_tag 4b8e1ad`.
+- per cancellare un tag: `  $  git tag -d nome_tag`.
+
+NB: Per poi visionare un commit taggato si usa: `$ git show nome_tag` ma è più utile andare ad uno specifico punto del repository tramite `$ git checkout nome_tag`. in tale caso si entra nel `detached HEAD state`e si possono fare esperiementi o modifiche (per rimuoverle si usa `> git checkout -- nomefile`   metre per aggiungerle si deve fare un nuovo branch con `> git chechout -b nomebranch`).
+
+- per condividere i tag in remoto si deve usare:  `  $  git push --tag nome_remote`.
 
 ### Esempio: workflow semplice
 - Si crea una directory con `mkdir nomedir $  cd nomeDir`
@@ -70,17 +82,17 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 ## Commit history
 - Mostra l'hash, l'autore e la data di tutti i commit partendo dal primo:  ` $  git log`
 - Mostra le modifiche nel tempo di un unico file:  ` $  git log -p index.html`
-- Mostra chi ha cambiato, cosa e quando di un unico file:  ` $  git blame index.html`
+- Mostra chi ha cambiato, cosa e quando di un unico file:  ` $  git b lame index.html`
 - Il flag `--stat` mostra l'hash, l'autore, la data e una sintesi dei file modificati, `--oneline` produce righe con hash e il msg del commit, mentre `--decorate` indica anche il branch e i tag, `--graph` disegna un grafico indicante il commit history, `--all` mostra tutti i commit. Si può formattare il log con `--pretty=format:"%cn committed %h on %cd"` o filtrare la commit history per data `git log --after="2014-7-1" --before="2014-7-4"` o per autore `git log --author="John"`, il flag `-n10` mostra gli ultimi 10 commit. 
 - ` $ git shortlog` riporta una lista dei commit suddivisi per autore.
 
 [Go to top](#table-of-contents)
 
 ## Differenze
-- Mostra l’elenco delle modifiche che devo applicare a `from` perché il progetto diventi identico a quello fotografato in `to`:  ` $  git from to  `
 - Mostra le differenze tra lo Stage e la working directory:  ` $  git diff  `
+- Mostra l’elenco delle modifiche che devo applicare a `from` perché il progetto diventi identico a quello fotografato in `to`:  ` $  git diff from to  `
 - Mostra le differenze tra due commit: `$  git diff 65476fa 4b8e1ad `
-- Mostra le differenze tra due commit(il + recente prima, il + vecchio dopo): `$  git diff 65476fa..4b8e1ad `
+- Mostra le differenze incluse tra due commit(il + recente prima, il + vecchio dopo): `$  git diff 65476fa..4b8e1ad `
 - Mostrare le differenze tra due branch: `git diff branch_sorgente branch_target`
 - Mostrare le differenze tra un tag e la working directory (il flag --stat indica un resoconto dei cambiamenti): `git diff v1.0`
 - Mostrare un resoconto tra due branch:  `git diff --stat nomebranch1 nomebranch2`
@@ -189,7 +201,7 @@ Per vedere temporaneamente un commit "spostandosi nel tempo":
     $ git checkout master             // per tornare allo stato “current” del progetto
 ```
 Quando ci si muove tra i commit, git avvisa che non si è attaccati ad un branch per cui qualsiasi modifica non avrà impatto sulla posizione di alcun branch (e suggerisce anche di crearne uno col comando git checkout -b): HEAD sta puntando direttamente al commit e non ad un branch
-Lo stato in cui HEAD non punta ad un branch viene chiamato `detached head`.
+Lo stato in cui HEAD non punta ad un branch viene chiamato `detached head` e si è rimossi dalla history dei commit.
 
 Da notare che se modifico dei file ma non li aggiungo all'index una volta che faccio il checkout ad un certo commit git riporta un errore dicendo che le modifiche locali sarebbero sovrascritte dal checkout e che è richiesto di committare le modifiche o fare uno stash.
 
