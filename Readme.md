@@ -96,6 +96,7 @@ NB: Per poi visionare un commit taggato si usa: `$ git show nome_tag` ma è più
 - Mostra le differenze tra l'HEAD e lo Stage:  ` $  git diff --staged `
 - Mostra l’elenco delle modifiche che devo applicare a `from` perché il progetto diventi identico a quello fotografato in `to`:  ` $  git diff from to  `
 - Mostra le differenze tra due commit: `$  git diff 65476fa 4b8e1ad `
+- Mostra le differenze su un file/ cartella: `git diff nomebranchdaconfrontareconilcorrente -- apps\widgets\nomecartella`
 - Mostra le differenze incluse tra due commit(il + recente prima, il + vecchio dopo): `$  git diff 65476fa..4b8e1ad `
 - Mostrare le differenze tra due branch: `git diff branch_sorgente branch_target`
 - Mostrare le differenze tra un tag e la working directory (il flag --stat indica un resoconto dei cambiamenti): `git diff v1.0`
