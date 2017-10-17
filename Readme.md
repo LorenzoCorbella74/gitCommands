@@ -56,7 +56,7 @@ Per vedere la lista dei parametri di configurazione: ` > git config --list`
 - Rimuovere il file, precedentemente aggiunto, dallo STAGE, ma mantenendo le modifiche: `$  git reset-- index.html` o `git reset -q HEAD -- index.html`
 - Committare i file indica salvare uno snapshot dello stage. Git committerà soltanto cambiamenti nello stage(index) e non i cambiamenti nella working directory. Git ragione per cambiamenti pertanto ogni commit ha un riferimento al proprio padre: `  $  git commit -m "Messaggio del commit"` . Il flag `-am` committa direttamente i file modificati dalla working area all'HEAD senza passare dallo stage.
 
-- Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un nuovo commit): `  $  git commit --amend -m "New commit message `. Se non aggiungo il commento si apre un editor e posso modificare il commento. Con 'amend' cambia lo SHA dell'ultimo commit.
+- Se si è dimenticato qualcosa dall'ultimo commit, combinare i file nello stage e l'ultimo commit (creando nella history un nuovo commit): `  $  git commit --amend -m "New commit message `. Se non aggiungo il commento si apre un editor e posso modificare il commento. Con 'amend' cambia lo SHA dell'ultimo commit. Oppure `  $  git add .` e poi `  $  git commit --amend`, e poi su VIM premere ESC poi ':wq' e poi return
 - Per vedere i dettagli di un commit:  `  $  git show 65476fa ` oppure  `  $  git show nome_tag `
 
 ## Tag
