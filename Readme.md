@@ -145,6 +145,12 @@ Il comando merge crea un nuovo commit che include le modifiche provenienti da un
     $ git chechout master // si va nel ramo che riceverà (ramo di destinazione)
     $ git merge branch-to-integrate // si specifica da chi prendere i commit (ramo di origine)
 ```
+Nel caso in cui si vogli accorpare durante il merge tutti i commit del feature branch bugfix in un commit:
+```
+git checkout master
+git merge --squash bugfix
+git commit
+```
 
 ### Rebase (Rifondazione) - rewriting history
 ![rebase](img/rebase.png)
